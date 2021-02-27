@@ -5,8 +5,7 @@ namespace les2_demo2.Models
 {
     public class VaccinationRegistration
     {
-        public Guid VaccinationRegistration { get; set; }
-
+        public Guid VaccinationRegistrationId { get; set; }
 
 
         [Required]
@@ -25,14 +24,14 @@ namespace les2_demo2.Models
 
 
         [Required]
-        public string VaccinationDate { get; set; }
+        public DateTime VaccinationDate { get; set; }
 
         [Required]
         public Guid VaccinTypeId { get; set; }
 
 
         [Required]
-        public Guid VaccinLocationId { get; set; }
+        public Guid VaccinationLocationId { get; set; }
 
     }
 }
