@@ -1,4 +1,6 @@
 
+using System.Xml.Xsl;
+using System.Xml.Schema;
 using System.IO;
 using System.Threading.Tasks;
 using System.ComponentModel.Design;
@@ -9,8 +11,12 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.AccessControl;
 using System.Collections.Generic;
+
 using les2_demo2.Models;
 using System.Linq;
+using les2_demo2.Configuration;
+using Microsoft.Extensions.Options;
+
 
 
 namespace les2_demo2.Controllers
@@ -19,6 +25,9 @@ namespace les2_demo2.Controllers
 
     public class VaccinationController : ControllerBase
     {
+
+        private CSVSettings _settings;
+
         private static List<VaccinType> _vaccinTypes;
 
         private static List<VaccinationLocation> _vaccinLocations;
@@ -26,8 +35,10 @@ namespace les2_demo2.Controllers
         private static List<VaccinationRegistration > _registraties;
 
 
-        public VaccinationController()
+        public VaccinationController(IOptions<CSVSettings>settings)
         {
+            _settings = settings.Value;
+
             if(_registraties == null){
                 _registraties = new List<VaccinationRegistration>();
                
@@ -57,6 +68,14 @@ namespace les2_demo2.Controllers
 
         }
 
+        [HttpGet]
+        [Route("/registrations")]
+
+        public ActionResult<List<VaccinationRegistration>> GetRegistrations(){
+            return new OkObjectResult(_registraties);
+        }
+
+        
         [HttpPost]
         [Route("/registration")]
 
