@@ -1,4 +1,5 @@
 
+using System.Reflection.Metadata;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System;
@@ -15,10 +16,22 @@ namespace les2_demo2.Controllers
     public class VaccinationController : ControllerBase
     {
         private static List<VaccinType> _vaccinTypes;
+
         private static List<VaccinationLocation> _vaccinLocations;
+
+        private static List<VaccinationRegistration > _registraties;
+
 
         public VaccinationController()
         {
+            if(_registraties == null){
+                _registraties = new List<VaccinationRegistration>();
+               
+            }
+
+
+
+
             if(_vaccinTypes == null){
                 _vaccinTypes = new List<VaccinType>();
                 _vaccinTypes.Add(new VaccinType()
@@ -37,17 +50,34 @@ namespace les2_demo2.Controllers
                     Name = "Kortrijk Expo"
                 });
             }
+
         }
 
-        [Route("/vaccins")]
+        [HttpPost]
+        [Route("/registration")]
+
+        public ActionResult<VaccinationRegistration> AddRegistration(VaccinationRegistration newRegistration){
+            newRegistration.VaccinationRegistration = Guid.NewGuid();
+            _registraties.Add(newRegistration);
+            return newRegistration;
+        }
+      
+
+
+
+
         [HttpGet]
+        [Route("/vaccins")]
+ 
 
         public ActionResult<List<VaccinType >> GetVaccins(){
             return new OkObjectResult(_vaccinTypes);
         }
 
-        [Route ("/locations")]
+
         [HttpGet]
+        [Route ("/locations")]
+        
 
         public ActionResult<List<VaccinationLocation >> GetLocations(){
             return new OkObjectResult(_vaccinLocations);
