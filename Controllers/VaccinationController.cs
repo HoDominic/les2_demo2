@@ -1,4 +1,7 @@
 
+using System.IO;
+using System.Threading.Tasks;
+using System.ComponentModel.Design;
 using System.Reflection.Metadata;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -7,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.AccessControl;
 using System.Collections.Generic;
 using les2_demo2.Models;
+using System.Linq;
 
 
 namespace les2_demo2.Controllers
@@ -57,7 +61,22 @@ namespace les2_demo2.Controllers
         [Route("/registration")]
 
         public ActionResult<VaccinationRegistration> AddRegistration(VaccinationRegistration newRegistration){
-            newRegistration.VaccinationRegistration = Guid.NewGuid();
+
+
+            if(newRegistration == null)
+                return new BadRequestResult();
+            
+            if(_vaccinTypes.Where(vt => vt.VaccinTypeId == newRegistration.VaccinTypeId).Count() == 0){
+                return new BadRequestResult();
+            }
+
+            if(_vaccinLocations.Where(vt => vt.VaccinationLocationId == newRegistration.VaccinationLocationId).Count() == 0){
+                return new BadRequestResult();
+            }
+
+
+
+            newRegistration.VaccinationRegistrationId = Guid.NewGuid();
             _registraties.Add(newRegistration);
             return newRegistration;
         }

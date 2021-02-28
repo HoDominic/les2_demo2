@@ -17,6 +17,7 @@ namespace les2_demo2.Models
 
 
         [EmailAddress]
+        [Required]
         public string Email { get; set; }
 
         [Range(18, 120)]
