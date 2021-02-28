@@ -28,6 +28,8 @@ namespace les2_demo2.Controllers
 
         private CSVSettings _settings;
 
+        
+
         private static List<VaccinType> _vaccinTypes;
 
         private static List<VaccinationLocation> _vaccinLocations;
@@ -36,37 +38,22 @@ namespace les2_demo2.Controllers
 
 
         public VaccinationController(IOptions<CSVSettings>settings)
+
         {
             _settings = settings.Value;
 
-            if(_registraties == null){
-                _registraties = new List<VaccinationRegistration>();
-               
-            }
 
-
-
-
-            if(_vaccinTypes == null){
-                _vaccinTypes = new List<VaccinType>();
-                _vaccinTypes.Add(new VaccinType()
-                {
-                    VaccinTypeId = Guid.NewGuid(),
-                    Name = "Modera"
-                });
-            }
-
-
-            if(_vaccinLocations == null){
-                _vaccinLocations = new List<VaccinationLocation>();
-                _vaccinLocations.Add(new VaccinationLocation()
-                {
-                    VaccinationLocationId = Guid.NewGuid(),
-                    Name = "Kortrijk Expo"
-                });
-            }
+            if(_vaccinTypes == null)
+            ReadCSVVaccins();
 
         }
+
+
+        private List<VaccinType> ReadCSVVaccins(){
+            return null;
+        }
+
+
 
         [HttpGet]
         [Route("/registrations")]
