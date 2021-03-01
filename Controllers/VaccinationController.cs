@@ -1,4 +1,6 @@
 
+using System.Security.Cryptography;
+using System.Globalization;
 using System.Xml.Xsl;
 using System.Xml.Schema;
 using System.IO;
@@ -16,6 +18,8 @@ using les2_demo2.Models;
 using System.Linq;
 using les2_demo2.Configuration;
 using Microsoft.Extensions.Options;
+using CsvHelper.Configuration;
+using CsvHelper;
 
 
 
@@ -50,7 +54,18 @@ namespace les2_demo2.Controllers
 
 
         private List<VaccinType> ReadCSVVaccins(){
-            return null;
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture){
+                HasHeaderRecord = false, Delimiter = ";"
+            };
+
+            using (var reader = new StreamReader(_settings.CSVVaccins))
+            {
+                using(var csv = new CsvReader(reader,config)){
+                    var records  = csv.GetRecords<VaccinType>();
+                    return records.ToList<VaccinType>();
+                }
+            }
+
         }
 
 
