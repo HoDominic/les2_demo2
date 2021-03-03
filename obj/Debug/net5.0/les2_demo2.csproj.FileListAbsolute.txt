@@ -27,3 +27,4 @@ C:\Users\domin\Desktop\MCT2\backend-programming\labo\week2\les2_demo2\obj\Debug\
 C:\Users\domin\Desktop\MCT2\backend-programming\labo\week2\les2_demo2\obj\Debug\net5.0\ref\les2_demo2.dll
 C:\Users\domin\Desktop\MCT2\backend-programming\labo\week2\les2_demo2\obj\Debug\net5.0\les2_demo2.pdb
 C:\Users\domin\Desktop\MCT2\backend-programming\labo\week2\les2_demo2\obj\Debug\net5.0\les2_demo2.genruntimeconfig.cache
+C:\Users\domin\Desktop\MCT2\backend-programming\labo\week2\les2_demo2\bin\Debug\net5.0\CsvHelper.dll

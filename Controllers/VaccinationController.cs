@@ -48,7 +48,11 @@ namespace les2_demo2.Controllers
 
 
             if(_vaccinTypes == null)
-            ReadCSVVaccins();
+            _vaccinTypes = ReadCSVVaccins();
+
+            if(_vaccinLocations == null)
+            _vaccinLocations = ReadCSVLocations();
+
 
         }
 
@@ -63,6 +67,24 @@ namespace les2_demo2.Controllers
                 using(var csv = new CsvReader(reader,config)){
                     var records  = csv.GetRecords<VaccinType>();
                     return records.ToList<VaccinType>();
+                }
+            }
+
+        }
+
+
+
+        
+        private List<VaccinationLocation> ReadCSVLocations(){
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture){
+                HasHeaderRecord = false, Delimiter = ";"
+            };
+
+            using (var reader = new StreamReader(_settings.CSVLocations))
+            {
+                using(var csv = new CsvReader(reader,config)){
+                    var records  = csv.GetRecords<VaccinationLocation>();
+                    return records.ToList<VaccinationLocation>();
                 }
             }
 
