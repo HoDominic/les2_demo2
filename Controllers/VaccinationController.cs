@@ -54,7 +54,7 @@ namespace les2_demo2.Controllers
                 _vaccinLocations = ReadCSVLocations();
 
             if (_registraties == null)
-                _registraties = new List<VaccinationRegistration>();
+                _registraties = ReadRegistrations();
         }
 
 
@@ -120,13 +120,39 @@ namespace les2_demo2.Controllers
         }
 
 
+        private List<VaccinationRegistration> ReadRegistrations()
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                Delimiter = ";"
+            };
+
+            using (var reader = new StreamReader(_settings.CSVRegistrations))
+            {
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<VaccinationRegistration>();
+                    return records.ToList<VaccinationRegistration>();
+                }
+            }
+
+        }
+
 
         [HttpGet]
         [Route("/registrations")]
 
-        public ActionResult<List<VaccinationRegistration>> GetRegistrations()
+        public ActionResult<List<VaccinationRegistration>> GetRegistrations(string date = "")
         {
-            return new OkObjectResult(_registraties);
+            if (string.IsNullOrEmpty(date))
+            {
+                return new OkObjectResult(_registraties);
+            }
+            else
+            {
+                return _registraties.Where(r => r.VaccinationDate == DateTime.Parse(date)).ToList<VaccinationRegistration>();
+            }
         }
 
 
