@@ -32,26 +32,26 @@ namespace les2_demo2.Controllers
 
         private CSVSettings _settings;
 
-        
+
 
         private static List<VaccinType> _vaccinTypes;
 
         private static List<VaccinationLocation> _vaccinLocations;
 
-        private static List<VaccinationRegistration > _registraties;
+        private static List<VaccinationRegistration> _registraties;
 
 
-        public VaccinationController(IOptions<CSVSettings>settings)
+        public VaccinationController(IOptions<CSVSettings> settings)
 
         {
             _settings = settings.Value;
 
 
-            if(_vaccinTypes == null)
-            _vaccinTypes = ReadCSVVaccins();
+            if (_vaccinTypes == null)
+                _vaccinTypes = ReadCSVVaccins();
 
-            if(_vaccinLocations == null)
-            _vaccinLocations = ReadCSVLocations();
+            if (_vaccinLocations == null)
+                _vaccinLocations = ReadCSVLocations();
 
 
         }
@@ -60,29 +60,36 @@ namespace les2_demo2.Controllers
 
         private void SaveRegistrations()
         {
-                var config = new CsvConfiguration(CultureInfo.InvariantCulture){
-                    HasHeaderRecord = false, Delimiter = ";"
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                Delimiter = ";"
             };
-           
+
             using (var writer = new StreamWriter(_settings.CSVRegistrations))
             {
-                using(var csv = new CsvWriter(writer,config)){
-                   csv.WriteRecords = (_registraties);
+                using (var csv = new CsvWriter(writer, config))
+                {
+                    csv.WriteRecords(_registraties);
                 }
             }
 
         }
 
 
-        private List<VaccinType> ReadCSVVaccins(){
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture){
-                HasHeaderRecord = false, Delimiter = ";"
+        private List<VaccinType> ReadCSVVaccins()
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                Delimiter = ";"
             };
 
             using (var reader = new StreamReader(_settings.CSVVaccins))
             {
-                using(var csv = new CsvReader(reader,config)){
-                    var records  = csv.GetRecords<VaccinType>();
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<VaccinType>();
                     return records.ToList<VaccinType>();
                 }
             }
@@ -91,16 +98,20 @@ namespace les2_demo2.Controllers
 
 
 
-        
-        private List<VaccinationLocation> ReadCSVLocations(){
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture){
-                HasHeaderRecord = false, Delimiter = ";"
+
+        private List<VaccinationLocation> ReadCSVLocations()
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                Delimiter = ";"
             };
 
             using (var reader = new StreamReader(_settings.CSVLocations))
             {
-                using(var csv = new CsvReader(reader,config)){
-                    var records  = csv.GetRecords<VaccinationLocation>();
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<VaccinationLocation>();
                     return records.ToList<VaccinationLocation>();
                 }
             }
@@ -112,25 +123,29 @@ namespace les2_demo2.Controllers
         [HttpGet]
         [Route("/registrations")]
 
-        public ActionResult<List<VaccinationRegistration>> GetRegistrations(){
+        public ActionResult<List<VaccinationRegistration>> GetRegistrations()
+        {
             return new OkObjectResult(_registraties);
         }
 
-        
+
         [HttpPost]
         [Route("/registration")]
 
-        public ActionResult<VaccinationRegistration> AddRegistration(VaccinationRegistration newRegistration){
+        public ActionResult<VaccinationRegistration> AddRegistration(VaccinationRegistration newRegistration)
+        {
 
 
-            if(newRegistration == null)
+            if (newRegistration == null)
                 return new BadRequestResult();
-            
-            if(_vaccinTypes.Where(vt => vt.VaccinTypeId == newRegistration.VaccinTypeId).Count() == 0){
+
+            if (_vaccinTypes.Where(vt => vt.VaccinTypeId == newRegistration.VaccinTypeId).Count() == 0)
+            {
                 return new BadRequestResult();
             }
 
-            if(_vaccinLocations.Where(vt => vt.VaccinationLocationId == newRegistration.VaccinationLocationId).Count() == 0){
+            if (_vaccinLocations.Where(vt => vt.VaccinationLocationId == newRegistration.VaccinationLocationId).Count() == 0)
+            {
                 return new BadRequestResult();
             }
 
@@ -140,25 +155,27 @@ namespace les2_demo2.Controllers
             _registraties.Add(newRegistration);
             return newRegistration;
         }
-      
+
 
 
 
 
         [HttpGet]
         [Route("/vaccins")]
- 
 
-        public ActionResult<List<VaccinType >> GetVaccins(){
+
+        public ActionResult<List<VaccinType>> GetVaccins()
+        {
             return new OkObjectResult(_vaccinTypes);
         }
 
 
         [HttpGet]
-        [Route ("/locations")]
-        
+        [Route("/locations")]
 
-        public ActionResult<List<VaccinationLocation >> GetLocations(){
+
+        public ActionResult<List<VaccinationLocation>> GetLocations()
+        {
             return new OkObjectResult(_vaccinLocations);
         }
 
