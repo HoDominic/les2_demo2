@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using les2_demo2.Configuration;
 
@@ -31,6 +30,9 @@ namespace les2_demo2
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CSVSettings>(Configuration.GetSection("CSVSettings"));
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
