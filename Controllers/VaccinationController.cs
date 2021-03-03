@@ -53,7 +53,8 @@ namespace les2_demo2.Controllers
             if (_vaccinLocations == null)
                 _vaccinLocations = ReadCSVLocations();
 
-
+            if (_registraties == null)
+                _registraties = new List<VaccinationRegistration>();
         }
 
 
