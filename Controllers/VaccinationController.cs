@@ -151,6 +151,13 @@ namespace les2_demo2.Controllers
             }
             else
             {
+                /*
+               DateTime.tempDate;
+               DateTime.TryParse(date, out tempDate);
+
+               if (tempDate == null)
+                   return new BadRequestResult();
+               */
                 return _registraties.Where(r => r.VaccinationDate == DateTime.Parse(date)).ToList<VaccinationRegistration>();
             }
         }
