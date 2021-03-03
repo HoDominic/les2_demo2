@@ -57,7 +57,7 @@ namespace les2_demo2.Controllers
         }
 
 
-
+        //registraties bijhouden
         private void SaveRegistrations()
         {
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -153,6 +153,7 @@ namespace les2_demo2.Controllers
 
             newRegistration.VaccinationRegistrationId = Guid.NewGuid();
             _registraties.Add(newRegistration);
+            SaveRegistrations();
             return newRegistration;
         }
 
