@@ -20,12 +20,16 @@ using les2_demo2.Configuration;
 using Microsoft.Extensions.Options;
 using CsvHelper.Configuration;
 using CsvHelper;
+using les2_demo2.DTO;
+using AutoMapper;
 
 
 
 namespace les2_demo2.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
 
     public class VaccinationController : ControllerBase
     {
@@ -40,11 +44,14 @@ namespace les2_demo2.Controllers
 
         private static List<VaccinationRegistration> _registraties;
 
+        private IMapper _mapper;
 
-        public VaccinationController(IOptions<CSVSettings> settings)
+        public VaccinationController(IOptions<CSVSettings> settings, IMapper mapper)
 
         {
+            _mapper = mapper;
             _settings = settings.Value;
+
 
 
             if (_vaccinTypes == null)
@@ -139,6 +146,16 @@ namespace les2_demo2.Controllers
 
         }
 
+        //Registrations version 2.0
+        [HttpGet]
+        [Route("/registrations")]
+        [MapToApiVersion("2.0")]
+
+        public ActionResult<List<VaccinationRegistrationDTO>> GetRegistrationsSmall()
+        {
+            return _mapper.Map<List<VaccinationRegistrationDTO>>(_registraties);
+        }
+
 
         [HttpGet]
         [Route("/registrations")]
@@ -161,7 +178,6 @@ namespace les2_demo2.Controllers
                 return _registraties.Where(r => r.VaccinationDate == DateTime.Parse(date)).ToList<VaccinationRegistration>();
             }
         }
-
 
         [HttpPost]
         [Route("/registration")]
