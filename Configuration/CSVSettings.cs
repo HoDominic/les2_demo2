@@ -7,5 +7,7 @@ namespace les2_demo2.Configuration
         public string CSVLocations { get; set; }
 
         public string CSVVaccins { get; set; }
+
+        public string CSVRegistrations { get; set; }
     }
 }

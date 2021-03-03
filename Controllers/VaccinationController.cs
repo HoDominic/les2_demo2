@@ -57,6 +57,23 @@ namespace les2_demo2.Controllers
         }
 
 
+
+        private void SaveRegistrations()
+        {
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture){
+                    HasHeaderRecord = false, Delimiter = ";"
+            };
+           
+            using (var writer = new StreamWriter(_settings.CSVRegistrations))
+            {
+                using(var csv = new CsvWriter(writer,config)){
+                   csv.WriteRecords = (_registraties);
+                }
+            }
+
+        }
+
+
         private List<VaccinType> ReadCSVVaccins(){
             var config = new CsvConfiguration(CultureInfo.InvariantCulture){
                 HasHeaderRecord = false, Delimiter = ";"
